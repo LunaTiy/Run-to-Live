@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: PhasedOut
   m_Shader: {fileID: 4800000, guid: d4ed2101b413b9b4380a2fbfc154cd40, type: 3}
   m_ShaderKeywords: 
@@ -91,3 +92,4 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 0.14987026, g: 0.46117708, b: 0.9705882, a: 1}
     - _RimColor: {r: 0.13235295, g: 0.7860087, b: 1, a: 1}
+  m_BuildTextureStacks: []
