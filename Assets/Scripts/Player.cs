@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private UnityEvent CooldownPhase;
+    [SerializeField] private UpdateImageFillEvent CooldownPhase;
 
     [Header("References")]
     [SerializeField] private GameManager _gameManager;
@@ -17,9 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _groundTransform;
     [SerializeField] private float _strafeSpeed = 4f;
     [SerializeField] private float _phaseCooldown = 2f;
-
-    
-
+    [SerializeField] private float _timeInPhase = 2f;
 
     private SkinnedMeshRenderer _mesh;
     private Collider _collision;
@@ -57,7 +55,8 @@ public class Player : MonoBehaviour
             _mesh.material = _phasedMaterial;
             _collision.enabled = false;
             _canPhase = false;
-            Invoke("ExitFromPhase", _phaseCooldown);
+            CooldownPhase?.Invoke(0f, 1f);
+            Invoke("ExitFromPhase", _timeInPhase);
 		}
 	}
 
@@ -66,5 +65,12 @@ public class Player : MonoBehaviour
         _mesh.material = _normalMaterial;
         _collision.enabled = true;
         _canPhase = true;
+        Invoke("PhaseRecharge", _phaseCooldown);
+	}
+
+    private void PhaseRecharge()
+	{
+        _canPhase = true;
+        CooldownPhase?.Invoke(1f, 1f);
 	}
 }

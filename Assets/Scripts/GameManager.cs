@@ -6,17 +6,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField] private UpdateUIEvent EstablishedLifeTime;
+	[SerializeField] private UpdateImageFillEvent UpdatedLifeTime;
+	[SerializeField] private UpdateText UpdatedTotalTimeElapsed;
 
-	[SerializeField] private Text _elapsedTime;
-	public float _gameTime = 10f;
+	[SerializeField] private float _gameTime = 10f;
 
+	private float _currentLifeTime;
 	private float _totalTimeElapsed;
 	private bool _isGameOver;
 
 	private void Start()
 	{
-		EstablishedLifeTime?.Invoke(_gameTime);
+		_currentLifeTime = _gameTime;
 	}
 
 	private void Update()
@@ -24,16 +25,18 @@ public class GameManager : MonoBehaviour
 		if (_isGameOver) return;
 
 		_totalTimeElapsed += Time.deltaTime;
-		_gameTime -= Time.deltaTime;
+		_currentLifeTime -= Time.deltaTime;
 
-		if (_gameTime <= 0) _isGameOver = true;
+		if (_currentLifeTime <= 0) _isGameOver = true;
 
 		UpdateUI();
 	}
 
 	public void AdjustTime(float amount)
 	{
-		_gameTime += amount;
+		_currentLifeTime += amount;
+
+		if (_currentLifeTime > _gameTime) _currentLifeTime = _gameTime;
 
 		if (amount < 0) SpeedWorldDown();
 	}
@@ -53,9 +56,13 @@ public class GameManager : MonoBehaviour
 
 	private void UpdateUI()
 	{
-		_elapsedTime.text = $"Elapsed time: {_totalTimeElapsed:F1}";
+		UpdatedLifeTime?.Invoke(_currentLifeTime, _gameTime);
+		UpdatedTotalTimeElapsed?.Invoke(_totalTimeElapsed);
 	}
 }
 
 [System.Serializable]
-class UpdateUIEvent : UnityEvent<float> { }
+class UpdateImageFillEvent : UnityEvent<float, float> { }
+
+[System.Serializable]
+class UpdateText : UnityEvent<float> { }
