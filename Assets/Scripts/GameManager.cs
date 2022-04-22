@@ -6,9 +6,14 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+	[Header("UI events")]
 	[SerializeField] private UpdateImageFillEvent UpdatedLifeTime;
 	[SerializeField] private UpdateText UpdatedTotalTimeElapsed;
 
+	[Header("Events")]
+	[SerializeField] private UnityEvent _lossedGame;
+
+	[Header("Properties")]
 	[SerializeField] private float _gameTime = 10f;
 
 	private float _currentLifeTime;
@@ -22,12 +27,17 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (_isGameOver) return;
+		if (_isGameOver)
+			return;
 
 		_totalTimeElapsed += Time.deltaTime;
 		_currentLifeTime -= Time.deltaTime;
 
-		if (_currentLifeTime <= 0) _isGameOver = true;
+		if (_currentLifeTime <= 0)
+		{
+			_lossedGame?.Invoke();
+			_isGameOver = true;
+		}
 
 		UpdateUI();
 	}
@@ -39,6 +49,13 @@ public class GameManager : MonoBehaviour
 		if (_currentLifeTime > _gameTime) _currentLifeTime = _gameTime;
 
 		if (amount < 0) SpeedWorldDown();
+	}
+
+	public void ResetTime()
+	{
+		_currentLifeTime = _gameTime;
+		_totalTimeElapsed = 0f;
+		_isGameOver = false;
 	}
 
 	private void SpeedWorldDown()

@@ -24,6 +24,13 @@ public class Player : MonoBehaviour
     private bool _canPhase = true;
     private float _bounds;
 
+    private Vector3 _startPosition;
+
+	private void Awake()
+	{
+        _startPosition = transform.position;
+    }
+
     private void Start()
 	{
         _mesh = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -36,6 +43,11 @@ public class Player : MonoBehaviour
 	{
         Movement();
         EnterToPhase();
+	}
+
+    public void ResetPosition()
+	{
+        transform.position = _startPosition;
 	}
 
     private void Movement()

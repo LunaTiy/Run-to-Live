@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SetTextValue : MonoBehaviour
 {
-    [SerializeField] private Text _textTime;
+    [SerializeField] private TMP_Text _textTime;
 
 	public void SetDivisionTime(float time, float maxTime)
 	{
@@ -14,6 +15,6 @@ public class SetTextValue : MonoBehaviour
 
 	public void SetSoloTime(float time)
 	{
-		_textTime.text = $"Elapsed time: {time:F1}";
+		_textTime.text = $"Your time\n{time:F1}";
 	}
 }
