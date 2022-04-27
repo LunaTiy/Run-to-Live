@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class GameStateControl : MonoBehaviour
 {
-    [Header("Events")]
+    [Header("Game State Events")]
     [SerializeField] private UnityEvent _startedGame;
     [SerializeField] private UnityEvent _pausedGame;
     [SerializeField] private UnityEvent _continuedGame;

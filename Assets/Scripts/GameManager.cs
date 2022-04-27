@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 	[Header("UI events")]
-	[SerializeField] private UpdateImageFillEvent UpdatedLifeTime;
-	[SerializeField] private UpdateText UpdatedTotalTimeElapsed;
+	[SerializeField] private UnityEvent<float, float> _updatedLifeTime;
+	[SerializeField] private UnityEvent<float> _updatedTotalTimeElapsed;
 
-	[Header("Events")]
+	[Header("Event Lose")]
 	[SerializeField] private UnityEvent _lossedGame;
 
 	[Header("Properties")]
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 		if (_currentLifeTime <= 0)
 		{
 			_lossedGame?.Invoke();
+			//_updatedAudioPitch?.Invoke(1f);
 			_isGameOver = true;
 		}
 
@@ -73,13 +74,7 @@ public class GameManager : MonoBehaviour
 
 	private void UpdateUI()
 	{
-		UpdatedLifeTime?.Invoke(_currentLifeTime, _gameTime);
-		UpdatedTotalTimeElapsed?.Invoke(_totalTimeElapsed);
+		_updatedLifeTime?.Invoke(_currentLifeTime, _gameTime);
+		_updatedTotalTimeElapsed?.Invoke(_totalTimeElapsed);
 	}
 }
-
-[System.Serializable]
-class UpdateImageFillEvent : UnityEvent<float, float> { }
-
-[System.Serializable]
-class UpdateText : UnityEvent<float> { }

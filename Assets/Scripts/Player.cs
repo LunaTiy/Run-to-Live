@@ -6,10 +6,9 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private UpdateImageFillEvent CooldownPhase;
+    [SerializeField] private UnityEvent<float, float> _cooldownPhase;
 
     [Header("References")]
-    [SerializeField] private GameManager _gameManager;
     [SerializeField] private Material _normalMaterial;
     [SerializeField] private Material _phasedMaterial;
 
@@ -67,7 +66,7 @@ public class Player : MonoBehaviour
             _mesh.material = _phasedMaterial;
             _collision.enabled = false;
             _canPhase = false;
-            CooldownPhase?.Invoke(0f, 1f);
+            _cooldownPhase?.Invoke(0f, 1f);
             Invoke("ExitFromPhase", _timeInPhase);
 		}
 	}
@@ -83,6 +82,6 @@ public class Player : MonoBehaviour
     private void PhaseRecharge()
 	{
         _canPhase = true;
-        CooldownPhase?.Invoke(1f, 1f);
+        _cooldownPhase?.Invoke(1f, 1f);
 	}
 }
